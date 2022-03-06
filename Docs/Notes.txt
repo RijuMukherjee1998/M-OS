@@ -1,0 +1,35 @@
+0x8000 => 32,768
+0xa1234 -> 6,60,020
+
+
+------------------------------------------
+Commands
+------------------------------------------
+nasm boot.asm -f bin -o boot.bin (compile asm to bin file)
+qemu-system-x86_64 boot.bin (Run the qemu with proper bin file)
+
+
+
+
+--------------------------------------
+Memory Layout x86 arch
+---------------------------------------
+Interrupt Vector Table(used by BIOS) => 0x00 - 0x400 (0 - 1024) => 1KB
+
+BIOS Data Area => 0x400 - 0x500 (1024 - 1280) => 256 Bytes
+
+Unused Area(Buffer Zone) => 0x500 - 0x7c00 (1280 - 31,744)
+
+*Loaded Boot Sector => 0x7c00 - 0x7e00 (31,744 - 32,256) => 512 Bytes 
+
+*Free space => 0x7e00 - 0x9fc00 (32,256 - 6,54,336) => 638 KB
+
+Extended BIOS Data Area => 0x9fc00 - 0xA0000 (6,54,336 - 6,55,360) => 1 KB
+
+Video Memory => 0xA0000 - 0xC0000 (6,55,360 - 7,86,432) => 128 KB
+
+BIOS => 0xC0000 - 0x100000 (7,86,432 - 1,048,576) => 256 KB
+
+Free Main Memory => 0X100000 - ???? (Based on Size of main Memory) (Left space based on ram size)
+
+
