@@ -6,11 +6,21 @@
 Commands
 ------------------------------------------
 nasm boot.asm -f bin -o boot.bin (compile asm to bin file)
-qemu-system-x86_64 boot.bin (Run the qemu with proper bin file)
+qemu-system-x86_64 any_boot_file.bin (Run the qemu with proper binary file)
 
+ubuntu path: \\wsl$\Ubuntu\home\toor\os-dev
+access through cmd : pushd \\wsl$\Ubuntu\home\toor (to move to network tab)
 
-
-
+Compiling C code for x86-64:
+    ->gcc -ffreestanding -c kernel.c -o kernel.o
+    ->Self linking to get bin:
+        ->ld -o kernel.bin -Ttext 0x1000 kernel.o --oformat binary
+Compiling ASM code for x86-64 system:
+    ->nasm kernel_entry.asm -f elf64 -o kernel_entry.o
+Linking two seperate Object files (Both Object files in x86-64 system):
+    ->ld -m elf_x86_64 -o kernel.bin -Ttext 0x1000 kernel_entry.o kernel.o --oformat binary
+Combing two binary files into 1 binary file (os-image.bin):
+    ->cat boot.bin ./kernel/kernel.bin > os-image.bin
 --------------------------------------
 Memory Layout x86 arch
 ---------------------------------------
@@ -33,3 +43,6 @@ BIOS => 0xC0000 - 0x100000 (7,86,432 - 1,048,576) => 256 KB
 Free Main Memory => 0X100000 - ???? (Based on Size of main Memory) (Left space based on ram size)
 
 
+-----------------------------------------------------
+GDT (Global Descriptor Table)
+-----------------------------------------------------

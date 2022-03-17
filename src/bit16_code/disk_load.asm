@@ -47,7 +47,8 @@ DISK_ERROR_MSG:
 DISK_INVALID_SECTOR_MSG:
     db "Invalid sectors read!",0
 
-
+SECTORS:
+    db 0
 
 
 
