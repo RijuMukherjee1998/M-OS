@@ -27,11 +27,11 @@ load_kernel:
     call disk_load
     ret
 
-%include "./src/bit16_code/print.asm"
-%include "./src/bit16_code/disk_load.asm"
-%include "./src/bit32_code/gdt.asm"
-%include "./src/bit32_code/print_32.asm"
-%include "./src/bit32_code/protected_mode_32.asm"
+%include "./src/boot/bit16_code/print.asm"
+%include "./src/boot/bit16_code/disk_load.asm"
+%include "./src/boot/bit32_code/gdt.asm"
+%include "./src/boot/bit32_code/print_32.asm"
+%include "./src/boot/bit32_code/protected_mode_32.asm"
 
 [bits 32]
 ; This is where we arrive after switching to nad initializing protected mode.
