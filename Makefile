@@ -18,4 +18,4 @@ kernel_entry.o :
 	nasm ./src/kernel/kernel_entry.asm -f elf64 -o ./build/kernel_entry.o
 
 clean :
-	rm -fr ./build/*.bin ./build/*.dis ./build/*.o os-image
+	rm -rf ./build/*.bin  ./build/*.o os-image.bin
