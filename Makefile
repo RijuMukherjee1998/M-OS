@@ -1,21 +1,32 @@
+# Build to get the os-image
 all : os-image
 
-os-image : kernel.bin boot.bin
+# Build the os-image
+os-image : boot.bin kernel.bin
 	cat ./build/boot.bin ./build/kernel.bin > os-image.bin
+# Build the boot_sect binary
+boot.bin:
+	nasm ./src/boot/boot.asm -f bin -o ./build/boot.bin	
+# Build the kernel binary
+kernel.bin : drivers.o kernel_entry.o kernel.o
+	ld -m elf_i386 -o ./build/kernel.bin -Ttext 0x1000 ./build/kernel_entry.o ./build/display.o ./build/ports.o ./build/kernel.o --oformat binary
+# ld -m elf_i386 -o ./build/kernel.bin -Ttext 0x1000 ./build/kernel_entry.o ./build/kernel.o --oformat binary
+# ld -m elf_i386 -o ./build/kernel.bin -Ttext 0x1000 ./build/kernel_entry.o ./build/display.o ./build/ports.o ./build/kernel.o --oformat binary
 
-boot.bin :
-	nasm ./src/boot/boot.asm -f bin -o ./build/boot.bin
-
-kernel.bin : compile_all kernel_entry.o
-	ld -m elf_x86_64 -o ./build/kernel.bin -Ttext 0x1000 ./build/*.o -- oformat binary
-
-compile_all:
-	gcc -c ./src/drivers/*.c -ffreestanding 
-	gcc -c ./src/kernel/*.c -ffreestanding
-	mv *.o ./build
-
+#Build the drivers
+drivers.o :
+	gcc -fno-pie -m32 -ffreestanding -c ./src/drivers/display.c -o ./build/display.o
+	gcc -fno-pie -m32 -ffreestanding -c ./src/drivers/ports.c   -o ./build/ports.o
+# Build the kernel object file
+kernel.o :
+	gcc -fno-pie -m32 -ffreestanding -c ./src/kernel/kernel.c -o ./build/kernel.o
+# Build the kernel entry object file .
 kernel_entry.o :
-	nasm ./src/kernel/kernel_entry.asm -f elf64 -o ./build/kernel_entry.o
+	nasm ./src/kernel/kernel_entry.asm -f elf32 -o ./build/kernel_entry.o
 
 clean :
-	rm -rf ./build/*.bin  ./build/*.o os-image.bin
+	rm *.bin ./build/*.bin ./build/*.o
+
+# kernel.dis : kernel.bin
+# 	ndisasm -b 32 ./build/kernel.bin -o kernel.dis
+
