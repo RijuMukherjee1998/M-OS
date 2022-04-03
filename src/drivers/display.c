@@ -99,9 +99,14 @@ void printk(char* charStream) {
 }
 
 void clear_screen() {
-    for ( int i = 0; i < MAX_COLS; ++i)
+    unsigned int offset = 0;
+    for (int r = 0; r < MAX_ROWS; ++r)
     {
-        set_char_at_video_memory(' ', i * 2);
+      for ( int c = 0; c < MAX_COLS; ++c)
+        {
+            set_char_at_video_memory(' ', offset + 2 * c);
+        }
+        offset = move_offset_to_new_line(offset);
     }
     set_cursor(get_offset(0,0));
 }
