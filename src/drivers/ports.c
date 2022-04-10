@@ -1,3 +1,5 @@
+#include "../include/ports.h"
+
 //Writing all low_level in_out functions that will be required later.
 // A handy C wrapper function to read a byte from the specific port
 unsigned char port_byte_in(unsigned short port) {
