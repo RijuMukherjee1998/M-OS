@@ -14,4 +14,7 @@ void main()
     printk("Initializing keyboard (IRQ 1).\n");
     init_keyboard();
 
+    clear_screen();
+    printk("> ");
+
 }

@@ -77,6 +77,12 @@ unsigned int scrolling(unsigned int offset)
     return (unsigned int) (offset - 2 * MAX_COLS);
 }
 
+void print_backspace(){
+    int newCursor = get_cursor() - 2;
+    set_char_at_video_memory(' ',newCursor);
+    set_cursor(newCursor);
+}
+
 void printk(char* charStream) {
     unsigned int offset = 0;
     offset = get_cursor();
